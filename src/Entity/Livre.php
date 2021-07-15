@@ -37,6 +37,27 @@ class Livre
      */
     private $code_isbn;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Emprunt::class, mappedBy="livre")
+     */
+    private $emprunts;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Auteur::class, inversedBy="livres")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $auteur;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Genre::class, inversedBy="livres")
+     */
+    private $Genre;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Genre::class, mappedBy="livre")
+     */
+    private $genres;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -89,4 +110,6 @@ class Livre
 
         return $this;
     }
+
+    
 }

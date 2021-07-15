@@ -27,6 +27,11 @@ class Auteur
      */
     private $prenom;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Livre::class, mappedBy="auteur")
+     */
+    private $livres;
+
     public function getId(): ?int
     {
         return $this->id;

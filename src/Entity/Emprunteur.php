@@ -47,6 +47,17 @@ class Emprunteur
      */
     private $date_modification;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Emprunt::class, mappedBy="emprunteur")
+     */
+    private $emprunts;
+
+    /**
+     * @ORM\OneToOne(targetEntity=User::class, cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -120,6 +131,19 @@ class Emprunteur
     public function setDateModification(?\DateTimeInterface $date_modification): self
     {
         $this->date_modification = $date_modification;
+
+        return $this;
+    }
+
+    // rajouté pour test
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

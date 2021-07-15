@@ -27,6 +27,17 @@ class Emprunt
      */
     private $date_retour;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Emprunt::class, inversedBy="emprunteurs")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $emprunteur;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Livre::class, inversedBy="emprunts")
+     */
+    private $livre;
+
     public function getId(): ?int
     {
         return $this->id;
