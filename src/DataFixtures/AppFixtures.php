@@ -453,85 +453,83 @@ class AppFixtures extends Fixture
                                       // EMPRUNTS //
 //-------------------------------------------------------------------------------------------------------------//
 
-public function loadEmprunts(ObjectManager $manager, Array $emprunteurs, $livres, int $count)
-{
-    $emprunts = [];
+    public function loadEmprunts(ObjectManager $manager, Array $emprunteurs, $livres, int $count)
+    {
+        $emprunts = [];
 
-    //Création d'un premier emprunt a données constante
-    $emprunt = new Emprunt();
-    $emprunt->setDateEmprunt(\DateTime::createFromFormat('Y-m-d H:i:s', '2020-02-01 10:00:00'));
-    $dateEmprunt = $emprunt->getDateEmprunt();
-    $dateModification = \DateTime::createFromFormat('Y-m-d H:i:s',  $dateEmprunt->format('Y-m-d H:i:s'));
-    $dateModification->add(new \DateInterval('P1M'));
-    $emprunt->setDateRetour($dateModification);
-    $emprunt->setEmprunteur($emprunteurs[0]);
-    $emprunt->setLivre($livres[0]);
-    
-    $manager->persist($emprunt);
-    
-    $emprunts[] = $emprunt;
-    
-    // //Création d'un second emprunt a données constante
-    $emprunt = new Emprunt();
-    $emprunt->setDateEmprunt(\DateTime::createFromFormat('Y-m-d H:i:s', '2020-01-01 10:00:00'));
-    $dateEmprunt = $emprunt->getDateEmprunt();
-    $dateModification = \DateTime::createFromFormat('Y-m-d H:i:s',  $dateEmprunt->format('Y-m-d H:i:s'));
-    $dateModification->add(new \DateInterval('P1M'));
-    $emprunt->setDateRetour($dateModification);
-    $emprunt->setEmprunteur($emprunteurs[1]);
-    $emprunt->setLivre($livres[1]);
-    
-    $manager->persist($emprunt);
-    
-    $emprunts[] = $emprunt;
-    
-    // //Création d'un troisième emprunt a données constante
-    $emprunt = new Emprunt();
-    $emprunt->setDateEmprunt(\DateTime::createFromFormat('Y-m-d H:i:s', '2020-04-01 10:00:00'));
-    $dateEmprunt = $emprunt->getDateEmprunt();
-    $dateModification = \DateTime::createFromFormat('Y-m-d H:i:s',  $dateEmprunt->format('Y-m-d H:i:s'));
-    $dateModification->add(new \DateInterval('P1M'));
-    $emprunt->setDateRetour($dateModification);
-    $emprunt->setEmprunteur($emprunteurs[2]);
-    $emprunt->setLivre($livres[2]);
-    
-    $manager->persist($emprunt);
-    
-    $emprunts[] = $emprunt;
-
-    // création de 200 emprunts a données aléatoires
-    for($i=0;$i<200;$i++){
-        $modification = $this->faker->boolean($chanceOfGettingTrue = 50);
-        $randomMonth = $this->faker->numberBetween($min = 1, $max = 7);
-        $randomHour = $this->faker->numberBetween($min = 1, $max = 24);
-        // choisir un emprunteur au hasard a chaque tour
-        $randomEmprunteur = $this->faker->randomElement($emprunteurs);
-        // choisir un livre au hasard a chaque tour
-        $randomLivre = $this->faker->randomElement($livres);
-        // Création des données aléatoires des données tests
+        //Création d'un premier emprunt a données constante
         $emprunt = new Emprunt();
-        $emprunt->setDateEmprunt($this->faker->dateTime($max = 'now', $timezone = null));
+        $emprunt->setDateEmprunt(\DateTime::createFromFormat('Y-m-d H:i:s', '2020-02-01 10:00:00'));
         $dateEmprunt = $emprunt->getDateEmprunt();
         $dateModification = \DateTime::createFromFormat('Y-m-d H:i:s',  $dateEmprunt->format('Y-m-d H:i:s'));
-
-        $emprunt->setDateEmprunt($this->faker->dateTime($max = 'now', $timezone = null));
-
-        if($modification){
-            $dateEmprunt = $emprunt->getDateEmprunt();
-            $DateRetour = \DateTime::createFromFormat('Y-m-d H:i:s', $dateEmprunt->format('Y-m-d H:i:s'));
-            $DateRetour->add(new \DateInterval("P{$randomMonth}M"));
-            $DateRetour->add(new \DateInterval("PT{$randomHour}H"));
-            $emprunt->setDateRetour($DateRetour);
-        }
-
-        $emprunt->setEmprunteur($randomEmprunteur);
-        $emprunt->setLivre($randomLivre);
+        $dateModification->add(new \DateInterval('P1M'));
+        $emprunt->setDateRetour($dateModification);
+        $emprunt->setEmprunteur($emprunteurs[0]);
+        $emprunt->setLivre($livres[0]);
         
         $manager->persist($emprunt);
         
         $emprunts[] = $emprunt;
-    }
-}    
+        
+        // //Création d'un second emprunt a données constante
+        $emprunt = new Emprunt();
+        $emprunt->setDateEmprunt(\DateTime::createFromFormat('Y-m-d H:i:s', '2020-01-01 10:00:00'));
+        $dateEmprunt = $emprunt->getDateEmprunt();
+        $dateModification = \DateTime::createFromFormat('Y-m-d H:i:s',  $dateEmprunt->format('Y-m-d H:i:s'));
+        $dateModification->add(new \DateInterval('P1M'));
+        $emprunt->setDateRetour($dateModification);
+        $emprunt->setEmprunteur($emprunteurs[1]);
+        $emprunt->setLivre($livres[1]);
+        
+        $manager->persist($emprunt);
+        
+        $emprunts[] = $emprunt;
+        
+        // //Création d'un troisième emprunt a données constante
+        $emprunt = new Emprunt();
+        $emprunt->setDateEmprunt(\DateTime::createFromFormat('Y-m-d H:i:s', '2020-04-01 10:00:00'));
+        $dateEmprunt = $emprunt->getDateEmprunt();
+        $dateModification = \DateTime::createFromFormat('Y-m-d H:i:s',  $dateEmprunt->format('Y-m-d H:i:s'));
+        $dateModification->add(new \DateInterval('P1M'));
+        $emprunt->setDateRetour($dateModification);
+        $emprunt->setEmprunteur($emprunteurs[2]);
+        $emprunt->setLivre($livres[2]);
+        
+        $manager->persist($emprunt);
+        
+        $emprunts[] = $emprunt;
 
+        // création de 200 emprunts a données aléatoires
+        for($i=0;$i<200;$i++){
+            $modification = $this->faker->boolean($chanceOfGettingTrue = 50);
+            $randomMonth = $this->faker->numberBetween($min = 1, $max = 7);
+            $randomHour = $this->faker->numberBetween($min = 1, $max = 24);
+            // choisir un emprunteur au hasard a chaque tour
+            $randomEmprunteur = $this->faker->randomElement($emprunteurs);
+            // choisir un livre au hasard a chaque tour
+            $randomLivre = $this->faker->randomElement($livres);
+            // Création des données aléatoires des données tests
+            $emprunt = new Emprunt();
+            $emprunt->setDateEmprunt($this->faker->dateTime($max = 'now', $timezone = null));
+            $dateEmprunt = $emprunt->getDateEmprunt();
+            $dateModification = \DateTime::createFromFormat('Y-m-d H:i:s',  $dateEmprunt->format('Y-m-d H:i:s'));
 
+            $emprunt->setDateEmprunt($this->faker->dateTime($max = 'now', $timezone = null));
+
+            if($modification){
+                $dateEmprunt = $emprunt->getDateEmprunt();
+                $DateRetour = \DateTime::createFromFormat('Y-m-d H:i:s', $dateEmprunt->format('Y-m-d H:i:s'));
+                $DateRetour->add(new \DateInterval("P{$randomMonth}M"));
+                $DateRetour->add(new \DateInterval("PT{$randomHour}H"));
+                $emprunt->setDateRetour($DateRetour);
+            }
+
+            $emprunt->setEmprunteur($randomEmprunteur);
+            $emprunt->setLivre($randomLivre);
+            
+            $manager->persist($emprunt);
+            
+            $emprunts[] = $emprunt;
+        }
+    }    
 }
