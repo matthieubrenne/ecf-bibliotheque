@@ -28,8 +28,7 @@ class Emprunt
     private $date_retour;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Emprunt::class, inversedBy="emprunteurs")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity=Emprunteur::class, inversedBy="emprunts")
      */
     private $emprunteur;
 
@@ -66,4 +65,29 @@ class Emprunt
 
         return $this;
     }
+
+    public function getLivre(): ?Livre
+    {
+        return $this->livre;
+    }
+
+    public function setLivre(?Livre $livre): self
+    {
+        $this->livre = $livre;
+
+        return $this;
+    }
+
+    public function getEmprunteur(): ?Emprunteur
+    {
+        return $this->emprunteur;
+    }
+
+    public function setEmprunteur(?Emprunteur $emprunteur): self
+    {
+        $this->emprunteur = $emprunteur;
+
+        return $this;
+    }
+
 }

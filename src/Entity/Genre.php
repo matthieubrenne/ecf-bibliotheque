@@ -28,14 +28,9 @@ class Genre
     private $description;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Livre::class, mappedBy="genre")
+     * @ORM\ManyToMany(targetEntity=Livre::class, mappedBy="genres")
      */
     private $livres;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=Livre::class, inversedBy="genres")
-     */
-    private $livre;
 
     public function getId(): ?int
     {

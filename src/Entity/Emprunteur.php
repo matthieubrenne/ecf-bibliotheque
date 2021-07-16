@@ -135,7 +135,6 @@ class Emprunteur
         return $this;
     }
 
-    // rajouté pour test
     public function getUser(): ?User
     {
         return $this->user;

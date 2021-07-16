@@ -46,9 +46,9 @@ class AppFixtures extends Fixture
         $this->loadAdmin($manager, 4);
         $genres = $this->loadGenres($manager);
         $auteurs = $this->loadAuteurs($manager, 500);
-        $livres = $this->loadLivres($manager, $auteurs, $genres);
-        $emprunteurs = $this->loadEmprunteurs($manager, 100);
-        // $emprunts = $this->loadEmprunts($manager, $emprunteurs, $livres);
+        $livres = $this->loadLivres($manager, $auteurs, $genres, 1000);
+        $emprunteurs = $this->loadEmprunteurs($manager, 104);
+        $emprunts = $this->loadEmprunts($manager, $emprunteurs,$livres, 200);
 
         // Exécution des requêtes.
         // C-à-d envoi de la requête SQL à la BDD.
@@ -72,7 +72,7 @@ class AppFixtures extends Fixture
 
         $manager->persist($user);
 
-        for ($i = 1; $i < $count; $i++) {
+        for ($i = 4; $i < $count; $i++) {
             // Création d'un nouveau user.
             $user = new User();
             $user->setEmail($this->faker->email());
@@ -136,12 +136,20 @@ class AppFixtures extends Fixture
                 'nom'=>'conte'
             ],
         ];
+        $genres= [];
 
+        // création des genres
         foreach($livreGenres as $key => $value){
             $genre = new Genre();
             $genre->setNom($value['nom']);
+
             $manager->persist($genre);
+
+            $genres[] = $genre;
         }
+
+        // On retourne le tableau Auteurs afin de pouvoir l'utiliser dans d'autres fonctions.
+        return $genres;
     }
 
 //-------------------------------------------------------------------------------------------------------------//
@@ -169,6 +177,7 @@ class AppFixtures extends Fixture
             ]
         ]; 
 
+        // création des 4 auteurs en données constantes
         foreach($auteurIdentity as $key => $value){
             $auteur = new Auteur();
             $auteur->setNom($value['nom']);
@@ -177,7 +186,7 @@ class AppFixtures extends Fixture
 
             $auteurs[] = $auteur;
         } 
-        
+        // création des 500 auteurs en données aléatoires
         for($i=0;$i<500;$i++){
 
             $auteur = new Auteur();
@@ -199,14 +208,14 @@ class AppFixtures extends Fixture
 
     public function loadEmprunteurs(ObjectManager $manager, int $count)
     {
-        // Création d'un tableau qui contiendra les students qu'on va créer.
+        // Création d'un tableau qui contiendra les emprunteurs et les users qu'on va créer.
         // La fonction va pouvoir renvoyer ce tableau pour que d'autres fonctions
         // de création d'objets puissent les utiliser.
         $emprunteurs = [];
 
-        // Création d'un nouveau user.
+        // Création d'un premier user.
         $user = new User();
-        $user->setEmail('student@example.com');
+        $user->setEmail('foo.foo@example.com');
         // Hachage du mot de passe.
         $password = $this->encoder->encodePassword($user, '123');
         $user->setPassword($password);
@@ -218,7 +227,7 @@ class AppFixtures extends Fixture
         // Demande d'enregistrement d'un objet dans la BDD.
         $manager->persist($user);
 
-        // Création d'un nouveau emprunteur.
+        // Création d'un premier emprunteur.
         $emprunteur = new EMPRUNTEUR();
         $emprunteur->setPrenom('foo');
         $emprunteur->setNom('foo');
@@ -226,23 +235,73 @@ class AppFixtures extends Fixture
         $emprunteur->setActif(true);
         $emprunteur->setDateCreation(\DateTime::createFromFormat('Y-m-d H:i:s', '2010-01-01 00:00:00'));
         $emprunteur->setDateModification(null);
-        // Association d'un student et d'un user.
+        // Association d'un emprunteur et d'un user.
         $emprunteur->setUser($user);
 
         // Demande d'enregistrement d'un objet dans la BDD
         $manager->persist($emprunteur);
 
-        // Ajout du premier emprunteur créé à la liste.
-        $emprunteurs[] = $emprunteur;
+        // Création d'un second user.
+        $user = new User();
+        $user->setEmail('bar.bar@example.com');
+        // Hachage du mot de passe.
+        $password = $this->encoder->encodePassword($user, '123');
+        $user->setPassword($password);
+        // Le format de la chaîne de caractères ROLE_FOO_BAR_BAZ
+        // est libre mais il vaut mieux suivre la convention
+        // proposée par Symfony.
+        $user->setRoles(['ROLE_EMPRUNTEUR']);
 
-        // Création de students avec des données aléatoires.
-        // On démarre la boucle for avec $i = 1 et non $i = 0
-        // car on a « déjà fait le premier tour » de la boucle
-        // quand on a créé notre premier student ci-dessus.
-        // Si le développeur demande N students, il faut retrancher
-        // le student qui a été créé ci-dessus et en créer N-1
-        // dans la boucle for.
-        for ($i = 1; $i < $count; $i++) {
+        // Demande d'enregistrement d'un objet dans la BDD.
+        $manager->persist($user);
+
+        // Création d'un second emprunteur.
+        $emprunteur = new EMPRUNTEUR();
+        $emprunteur->setPrenom('bar');
+        $emprunteur->setNom('bar');
+        $emprunteur->setTel('123456789');
+        $emprunteur->setActif(true);
+        $emprunteur->setDateCreation(\DateTime::createFromFormat('Y-m-d H:i:s', '2010-01-01 00:00:00'));
+        $emprunteur->setDateModification(null);
+        // Association d'un emprunteur et d'un user.
+        $emprunteur->setUser($user);
+
+        // Demande d'enregistrement d'un objet dans la BDD
+        $manager->persist($emprunteur);
+
+        // Création d'un troisième user.
+        $user = new User();
+        $user->setEmail('baz.baz@example.com');
+        // Hachage du mot de passe.
+        $password = $this->encoder->encodePassword($user, '123');
+        $user->setPassword($password);
+        // Le format de la chaîne de caractères ROLE_FOO_BAR_BAZ
+        // est libre mais il vaut mieux suivre la convention
+        // proposée par Symfony.
+        $user->setRoles(['ROLE_EMPRUNTEUR']);
+
+        // Demande d'enregistrement d'un objet dans la BDD.
+        $manager->persist($user);
+
+        // Création d'un troisième emprunteur.
+        $emprunteur = new EMPRUNTEUR();
+        $emprunteur->setPrenom('baz');
+        $emprunteur->setNom('baz');
+        $emprunteur->setTel('123456789');
+        $emprunteur->setActif(true);
+        $emprunteur->setDateCreation(\DateTime::createFromFormat('Y-m-d H:i:s', '2010-01-01 00:00:00'));
+        $emprunteur->setDateModification(null);
+        // Association d'un emprunteur et d'un user.
+        $emprunteur->setUser($user);
+
+        // Demande d'enregistrement d'un objet dans la BDD
+        $manager->persist($emprunteur);
+
+        // // Création de 100 emprunteurs avec des données aléatoires.
+        // // Si le développeur demande N emprunteur, il faut retrancher
+        // // l'emprunteur qui a été créé ci-dessus et en créer N-1
+        // // dans la boucle for.
+        for ($i = 4; $i < $count; $i++) {
 
             // Création d'un nouveau user.
             $user = new User();
@@ -292,13 +351,187 @@ class AppFixtures extends Fixture
                                       // LIVRES //
 //-------------------------------------------------------------------------------------------------------------//
 
-    public function loadLivres($manager, $auteurs, $genres) 
+    public function loadLivres($manager, Array $auteursParam, Array $genresParam, int $count) 
     {
+        $livres = [];
 
+        $auteur = $auteursParam[0];
+        $genre = $genresParam[0];
+
+        // Création d'un premier Book avec des données constantes.
+        $livre = new Livre();
+        
+        $livre->setTitre('Lorem ipsum dolor sit amet');
+        $livre->setAnneeEdition(2010);
+        $livre->setNombrePages(100);
+        $livre->setCodeIsbn('9785786930024');
+        $livre->setAuteur($auteur);
+        $livre->addGenre($genre);
+
+        $manager->persist($livre);
+
+        $livres[] = $livre;
+
+        // Création d'un second livre avec des données constantes.
+        $auteur = $auteursParam[1];
+        $genre = $genresParam[1];
+
+        $livre = new Livre();
+        
+        $livre->setTitre("Consectetur adipiscing elit");
+        $livre->setAnneeEdition(2011);
+        $livre->setNombrePages(150);
+        $livre->setCodeIsbn('9783817260935');    
+        $livre->setAuteur($auteur);
+        $livre->addGenre($genre);
+
+
+        $manager->persist($livre);
+        
+        $livres[] = $livre;
+
+        // Création d'un troisième livre avec des données constantes.
+        $auteur = $auteursParam[2];
+        $genre = $genresParam[2];
+
+        $livre = new Livre();
+
+        $livre->setTitre('Mihi quidem Antiochum');
+        $livre->setAnneeEdition(2012);
+        $livre->setNombrePages(200);
+        $livre->setCodeIsbn('9782020493727');
+        $livre->setAuteur($auteur);
+        $livre->addGenre($genre);
+
+        $manager->persist($livre);
+
+        $livres[] = $livre;
+
+        // Création d'un quatrième livre avec des données constantes.
+        $auteur = $auteursParam[3];
+        $genre = $genresParam[3];
+
+        $livre = new Livre();
+
+        $livre->setTitre('Quem audis satis belle');
+        $livre->setAnneeEdition(2013);
+        $livre->setNombrePages(250);
+        $livre->setCodeIsbn('9794059561353');
+        $livre->setAuteur($auteur);
+        $livre->addGenre($genre);
+
+        $manager->persist($livre);
+
+        $livres[] = $livre;
+
+        // création des 1000 livres en données aléatoires
+        for($i=0;$i<1000;$i++){
+
+            // Choisir un auteur au hasard à chaque tour
+            $randomAuteur = $this->faker->randomElement($auteursParam);
+            // Choisir un genre au hasard à chaque tour
+            $randomGenre = $this->faker->randomElement($genresParam);
+
+            $livre = new Livre();
+
+            $livre->setTitre($this->faker->sentence($nbWords = 4, $variableNbWords = true));
+            $livre->setAnneeEdition($this->faker->year($max = 'now'));
+            $livre->setNombrePages($this->faker->numberBetween($min = 40, $max = 1100));
+            $livre->setCodeIsbn($this->faker->isbn13());
+            $livre->setAuteur($randomAuteur);
+            $livre->addGenre($randomGenre);
+
+            $manager->persist($livre);
+
+            $livres[] = $livre;
+        }
+
+        return $livres;
     }
 
 //-------------------------------------------------------------------------------------------------------------//
-                                      // EMPRUNT //
+                                      // EMPRUNTS //
 //-------------------------------------------------------------------------------------------------------------//
+
+public function loadEmprunts(ObjectManager $manager, Array $emprunteurs, $livres, int $count)
+{
+    $emprunts = [];
+
+    //Création d'un premier emprunt a données constante
+    $emprunt = new Emprunt();
+    $emprunt->setDateEmprunt(\DateTime::createFromFormat('Y-m-d H:i:s', '2020-02-01 10:00:00'));
+    $dateEmprunt = $emprunt->getDateEmprunt();
+    $dateModification = \DateTime::createFromFormat('Y-m-d H:i:s',  $dateEmprunt->format('Y-m-d H:i:s'));
+    $dateModification->add(new \DateInterval('P1M'));
+    $emprunt->setDateRetour($dateModification);
+    $emprunt->setEmprunteur($emprunteurs[0]);
+    $emprunt->setLivre($livres[0]);
+    
+    $manager->persist($emprunt);
+    
+    $emprunts[] = $emprunt;
+    
+    // //Création d'un second emprunt a données constante
+    $emprunt = new Emprunt();
+    $emprunt->setDateEmprunt(\DateTime::createFromFormat('Y-m-d H:i:s', '2020-01-01 10:00:00'));
+    $dateEmprunt = $emprunt->getDateEmprunt();
+    $dateModification = \DateTime::createFromFormat('Y-m-d H:i:s',  $dateEmprunt->format('Y-m-d H:i:s'));
+    $dateModification->add(new \DateInterval('P1M'));
+    $emprunt->setDateRetour($dateModification);
+    $emprunt->setEmprunteur($emprunteurs[1]);
+    $emprunt->setLivre($livres[1]);
+    
+    $manager->persist($emprunt);
+    
+    $emprunts[] = $emprunt;
+    
+    // //Création d'un troisième emprunt a données constante
+    $emprunt = new Emprunt();
+    $emprunt->setDateEmprunt(\DateTime::createFromFormat('Y-m-d H:i:s', '2020-04-01 10:00:00'));
+    $dateEmprunt = $emprunt->getDateEmprunt();
+    $dateModification = \DateTime::createFromFormat('Y-m-d H:i:s',  $dateEmprunt->format('Y-m-d H:i:s'));
+    $dateModification->add(new \DateInterval('P1M'));
+    $emprunt->setDateRetour($dateModification);
+    $emprunt->setEmprunteur($emprunteurs[2]);
+    $emprunt->setLivre($livres[2]);
+    
+    $manager->persist($emprunt);
+    
+    $emprunts[] = $emprunt;
+
+    // création de 200 emprunts a données aléatoires
+    for($i=0;$i<200;$i++){
+        $modification = $this->faker->boolean($chanceOfGettingTrue = 50);
+        $randomMonth = $this->faker->numberBetween($min = 1, $max = 7);
+        $randomHour = $this->faker->numberBetween($min = 1, $max = 24);
+        // choisir un emprunteur au hasard a chaque tour
+        $randomEmprunteur = $this->faker->randomElement($emprunteurs);
+        // choisir un livre au hasard a chaque tour
+        $randomLivre = $this->faker->randomElement($livres);
+        // Création des données aléatoires des données tests
+        $emprunt = new Emprunt();
+        $emprunt->setDateEmprunt($this->faker->dateTime($max = 'now', $timezone = null));
+        $dateEmprunt = $emprunt->getDateEmprunt();
+        $dateModification = \DateTime::createFromFormat('Y-m-d H:i:s',  $dateEmprunt->format('Y-m-d H:i:s'));
+
+        $emprunt->setDateEmprunt($this->faker->dateTime($max = 'now', $timezone = null));
+
+        if($modification){
+            $dateEmprunt = $emprunt->getDateEmprunt();
+            $DateRetour = \DateTime::createFromFormat('Y-m-d H:i:s', $dateEmprunt->format('Y-m-d H:i:s'));
+            $DateRetour->add(new \DateInterval("P{$randomMonth}M"));
+            $DateRetour->add(new \DateInterval("PT{$randomHour}H"));
+            $emprunt->setDateRetour($DateRetour);
+        }
+
+        $emprunt->setEmprunteur($randomEmprunteur);
+        $emprunt->setLivre($randomLivre);
+        
+        $manager->persist($emprunt);
+        
+        $emprunts[] = $emprunt;
+    }
+}    
+
 
 }
