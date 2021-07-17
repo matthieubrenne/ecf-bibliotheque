@@ -19,32 +19,61 @@ class EmprunteurRepository extends ServiceEntityRepository
         parent::__construct($registry, Emprunteur::class);
     }
 
-    // /**
-    //  * @return Emprunteur[] Returns an array of Emprunteur objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findByUserId($userId)
     {
         return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('e.id', 'ASC')
-            ->setMaxResults(10)
+        ->innerJoin('e.user', 'u')
+        ->andWhere('u.id LIKE :userId')
+        ->setParameter('userId', "{$userId}")
+        ->orderBy('e.id','ASC')
+        ->getQuery()
+        ->getResult();
+    }
+
+    public function findByNomOuPrenom($value)
+    {
+        $qb = $this->createQueryBuilder('s');
+
+        return $qb->where($qb->expr()->orX(
+                $qb->expr()->like('s.prenom', ':value'),
+                $qb->expr()->like('s.nom', ':value')
+            ))
+
+            ->setParameter('value', "%{$value}%")
+            ->orderBy('s.prenom', 'ASC')
+            ->orderBy('s.nom', 'ASC')
             ->getQuery()
             ->getResult()
         ;
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Emprunteur
+    public function findByTel($tel)
     {
         return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        ->where('e.tel LIKE :tel')
+        ->setParameter('tel', "%{$tel}%")
+        ->orderBy('e.id','ASC')
+        ->getQuery()
+        ->getResult();
     }
-    */
+
+    public function findByDateCreation($date)
+    {
+        return $this->createQueryBuilder('e')
+        ->where('e.date_creation < :date')
+        ->setParameter('date', "{$date}")
+        ->orderBy('e.id','ASC')
+        ->getQuery()
+        ->getResult();
+    }
+
+    public function findByStatus($isActive)
+    {
+        return $this->createQueryBuilder('e')
+        ->where('e.actif = :isActive')
+        ->setParameter('isActive', $isActive)
+        ->orderBy('e.id','ASC')
+        ->getQuery()
+        ->getResult();
+    }
 }

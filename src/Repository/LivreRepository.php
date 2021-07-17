@@ -19,32 +19,36 @@ class LivreRepository extends ServiceEntityRepository
         parent::__construct($registry, Livre::class);
     }
 
-    // /**
-    //  * @return Livre[] Returns an array of Livre objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findByTitre($titre)
     {
         return $this->createQueryBuilder('l')
-            ->andWhere('l.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('l.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        ->where('l.titre LIKE :titre')
+        ->setParameter('titre', "%{$titre}%")
+        ->orderBy('l.id','ASC')
+        ->getQuery()
+        ->getResult();
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Livre
+    public function findByGenre($genre)
     {
         return $this->createQueryBuilder('l')
-            ->andWhere('l.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        ->innerJoin('l.genres', 'g')
+        ->andWhere('g.nom LIKE :genre')
+        ->setParameter('genre', "%{$genre}%")
+        ->orderBy('l.id','ASC')
+        ->getQuery()
+        ->getResult();
     }
-    */
+
+    public function findByAuteurId($auteurId)
+    {
+        return $this->createQueryBuilder('l')
+        ->innerJoin('l.auteur', 'a')
+        ->andWhere('a.id LIKE :auteurId')
+        ->setParameter('auteurId', "{$auteurId}")
+        ->orderBy('l.id','ASC')
+        ->getQuery()
+        ->getResult();
+    }
+
 }

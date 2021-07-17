@@ -34,13 +34,11 @@ class TestController extends AbstractController
         GenreRepository $genreRepository): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
-
+        
         //----------------------------------------------//
                       //USERS//
         //----------------------------------------------//
-
         exit();
-        
         $users = $userRepository->findAll();
         dump($users);
 
@@ -50,9 +48,9 @@ class TestController extends AbstractController
         $fooEmail = $userRepository->findOneBy(['email' => 'foo.foo@example.com']);
         dump($fooEmail);
 
-        $emprunteur = $userRepository->findByRoles('ROLE_EMPRUNTEUR');
+        $emprunteur = $userRepository->findByRole('ROLE_EMPRUNTEUR');
         dump($emprunteur);
-
+        
         //----------------------------------------------//
                       //LIVRES//
         //----------------------------------------------//
@@ -68,11 +66,10 @@ class TestController extends AbstractController
 
         $livres = $livreRepository->findByAuteur(2);
         dump($livres);
-
+        
         $livres = $livreRepository->findByGenre('roman');
         dump($livres);
-
-
+        
                       //CREATIONS//
 
         $auteurs = $auteurRepository->findAll();
@@ -124,7 +121,7 @@ class TestController extends AbstractController
         $user = $emprunteurRepository->findByUser($emprunteur);
         dump($emprunteur);
 
-        $emprunteurs = $emprunteurRepository->findByNomOrPrenom("foo");
+        $emprunteurs = $emprunteurRepository->findByNomOuPrenom("foo");
         dump($emprunteurs);
 
         $emprunteurs = $emprunteurRepository->findByTel('1234');
@@ -135,7 +132,7 @@ class TestController extends AbstractController
 
         $emprunteurs = $emprunteurRepository->findByStatus(false);
         dump($emprunteurs);
-
+        
         //----------------------------------------------//
                       //EMPRUNTS//
         //----------------------------------------------//
@@ -157,9 +154,9 @@ class TestController extends AbstractController
         $emprunts = $empruntRepository->findEmpruntsNonRendus();
         dump($emprunts);
 
-        $emprunt = $empruntRepository->findOneByLivreIdAndDateRetour(3);
+        $emprunt = $empruntRepository->findOneByLivreIdEtDateRetour(3);
         dump($emprunt);
-
+        
                       //CREATION//
 
         $emprunteurs = $emprunteurRepository->findAll();
