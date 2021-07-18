@@ -60,4 +60,32 @@ class Genre
 
         return $this;
     }
+
+
+    /**
+     * @return Collection|Livre[]
+     */
+    public function getLivres(): Collection
+    {
+        return $this->livres;
+    }
+
+    public function addLivre(Livre $livre): self
+    {
+        if (!$this->livres->contains($livre)) {
+            $this->livres[] = $livre;
+            $livre->addGenre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLivre(Livre $livre): self
+    {
+        if ($this->livres->removeElement($livre)) {
+            $livre->removeGenre($this);
+        }
+
+        return $this;
+    }
 }

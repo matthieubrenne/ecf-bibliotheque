@@ -737,7 +737,7 @@ Une authentification réussie doit rediriger l'utilisateur vers la page liste de
 
 
 
-Dans es pages CRUD des emprunts :
+Dans les pages CRUD des emprunts :
 
 
 
@@ -856,3 +856,8 @@ méthode : `DELETE`
 Les autres pages de type CRUD sont construites en remplaçant le mot clé `livre` par la ressource correspondante.
 
 Exemple : `/admin/user`, `/admin/auteur`, `/admin/genre`, etc.
+
+
+A faire : 
+- rajouter les auteurs a la page d'accueil des livres
+- continuer genre (probleme a l'edition avec les livres)

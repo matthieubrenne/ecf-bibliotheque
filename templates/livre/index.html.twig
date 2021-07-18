@@ -12,7 +12,6 @@
                 <th>Titre</th>
                 <th>Annee_edition</th>
                 <th>Nombre_pages</th>
-                <th>Code_isbn</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -23,7 +22,6 @@
                 <td>{{ livre.titre }}</td>
                 <td>{{ livre.anneeEdition }}</td>
                 <td>{{ livre.nombrePages }}</td>
-                <td>{{ livre.codeIsbn }}</td>
                 <td>
                     <a href="{{ path('livre_show', {'id': livre.id}) }}">show</a>
                     <a href="{{ path('livre_edit', {'id': livre.id}) }}">edit</a>
