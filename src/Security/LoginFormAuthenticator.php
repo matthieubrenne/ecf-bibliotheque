@@ -31,9 +31,15 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     private $urlGenerator;
     private $csrfTokenManager;
     private $passwordEncoder;
+    private $emprunteurRepository;
 
-    public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $passwordEncoder)
-    {
+    public function __construct(
+        EntityManagerInterface $entityManager, 
+        UrlGeneratorInterface $urlGenerator, 
+        CsrfTokenManagerInterface $csrfTokenManager, 
+        UserPasswordEncoderInterface $passwordEncoder
+        ) {
+
         $this->entityManager = $entityManager;
         $this->urlGenerator = $urlGenerator;
         $this->csrfTokenManager = $csrfTokenManager;
@@ -96,8 +102,18 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
             return new RedirectResponse($targetPath);
         }
 
-        // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
-        throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+        $user = $token->getUser();
+
+        if (in_array('ROLE_ADMIN', $user->getRoles())) {
+            $url = $this->urlGenerator->generate('livre_index');
+        } elseif (in_array('ROLE_EMPRUNTEUR', $user->getRoles())) {
+            $url = $this->urlGenerator->generate('emprunt_index');
+        } else {
+            throw new \Exception("Votre rôle n'est pas reconnu");
+        }
+
+        return new RedirectResponse($url);
+
     }
 
     protected function getLoginUrl()

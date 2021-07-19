@@ -1,8 +1,11 @@
 <?php
 
+
 namespace App\Entity;
 
 use App\Repository\EmprunteurRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -131,6 +134,35 @@ class Emprunteur
     public function setDateModification(?\DateTimeInterface $date_modification): self
     {
         $this->date_modification = $date_modification;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Emprunt[]
+     */
+    public function getEmprunts(): Collection
+    {
+        return $this->emprunts;
+    }
+
+    public function addEmprunt(Emprunt $emprunt): self
+    {
+        if (!$this->emprunts->contains($emprunt)) {
+            $this->emprunts[] = $emprunt;
+            $emprunt->setEmprunteur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEmprunt(Emprunt $emprunt): self
+    {
+        if ($this->emprunts->removeElement($emprunt)) {
+            if ($emprunt->getEmprunteur() === $this) {
+                $emprunt->setEmprunteur(null);
+            }
+        }
 
         return $this;
     }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AuteurRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -60,4 +62,6 @@ class Auteur
 
         return $this;
     }
+
+    
 }

@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Emprunt index{% endblock %}
+
+{% block body %}
+    <h1>Emprunt index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Date_emprunt</th>
+                <th>Date_retour</th>
+                {% if is_granted('ROLE_ADMIN')%}
+                <th>actions</th>
+                {% endif %}
+                {% if is_granted('ROLE_EMPRUNTEUR')%}
+                <th>action</th>
+                {% endif %}
+
+
+            </tr>
+        </thead>
+        <tbody>
+        {% for emprunt in emprunts %}
+            <tr>
+                <td>{{ emprunt.id }}</td>
+                <td>{{ emprunt.dateEmprunt ? emprunt.dateEmprunt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ emprunt.dateRetour ? emprunt.dateRetour|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('emprunt_show', {'id': emprunt.id}) }}">show</a>
+                    {% if is_granted('ROLE_ADMIN')%}
+                    <a href="{{ path('emprunt_edit', {'id': emprunt.id}) }}">edit</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('emprunt_new') }}">Create new</a>
+{% endblock %}

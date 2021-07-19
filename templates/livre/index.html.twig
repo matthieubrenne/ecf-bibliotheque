@@ -26,7 +26,7 @@
                 <td>
                     <a href="{{ path('livre_show', {'id': livre.id}) }}">{{ livre.titre }}</a>
                 </td>
-                <td>{{livre.auteur.nom}}</td>
+                <td>{{livre.auteur.nom}} {{livre.auteur.prenom}}</td>
                 <td>{{ livre.anneeEdition }}</td>
                 <td>{{ livre.nombrePages }}</td>
                 {# liens pour les admins #}
