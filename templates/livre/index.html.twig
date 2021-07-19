@@ -3,29 +3,39 @@
 {% block title %}Livre index{% endblock %}
 
 {% block body %}
-    <h1>Accueil</h1>
+    <h1>Livres</h1>
 
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Titre</th>
+                <th>Auteur</th>
                 <th>Annee_edition</th>
                 <th>Nombre_pages</th>
+                {# liens pour les admins #}
+                {% if is_granted('ROLE_ADMIN')%}
                 <th>actions</th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>
         {% for livre in livres %}
             <tr>
                 <td>{{ livre.id }}</td>
-                <td>{{ livre.titre }}</td>
+                <td>
+                    <a href="{{ path('livre_show', {'id': livre.id}) }}">{{ livre.titre }}</a>
+                </td>
+                <td>{{livre.auteur.nom}}</td>
                 <td>{{ livre.anneeEdition }}</td>
                 <td>{{ livre.nombrePages }}</td>
+                {# liens pour les admins #}
+                {% if is_granted('ROLE_ADMIN')%}
                 <td>
                     <a href="{{ path('livre_show', {'id': livre.id}) }}">show</a>
                     <a href="{{ path('livre_edit', {'id': livre.id}) }}">edit</a>
                 </td>
+                {% endif %}
             </tr>
         {% else %}
             <tr>

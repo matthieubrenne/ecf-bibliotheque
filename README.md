@@ -623,43 +623,16 @@ Et si l'utilisateur est admin, le menu doit aussi proposer des liens vers :
 
 
 
-La page d'accueil, accessible par tout le monde, doit afficher un formulaire de recherche et un catalogue des livres.
+La page d'accueil, accessible par tout le monde, doit afficher un catalogue des livres.
 
 
 
 Dans le catalogue des livres, le titre doit être un lien clickable qui pointe vers la page détails du livre.
 
-Le formulaire de recherche doit permettre de faire une recherche par mot clé dans le titre, par mot clé dans le nom de l'auteur ou par code ISBN exact.
-
-
-
-- formulaire :
-
-- titre
-
-- auteur
-
-- isbn
-
-
-
-- résultats :
-
-- titre (lien clickable)
-
-- auteur
-
-- année d'édition
-
-- nombre de page
-
-- (optionnel) disponibilité
-
-
 
 - URL : `/`
 
-- méthode : `GET`, `POST`
+- méthode : `GET`
 
 - accessibilité : tout le monde
 
