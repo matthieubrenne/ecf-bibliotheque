@@ -501,14 +501,15 @@ class AppFixtures extends Fixture
 
         // création de 200 emprunts a données aléatoires
         for($i=0;$i<200;$i++){
-            $modification = $this->faker->boolean($chanceOfGettingTrue = 50);
+            // nombre de chance de retour des emprunts pour avoir une partie d'emprunts non rendus
+            $randomRetour = $this->faker->boolean($chance = 50);
             $randomMonth = $this->faker->numberBetween($min = 1, $max = 7);
             $randomHour = $this->faker->numberBetween($min = 1, $max = 24);
-            // choisir un emprunteur au hasard a chaque tour
+            // Choisir un emprunteur au hasard à chaque tour
             $randomEmprunteur = $this->faker->randomElement($emprunteurs);
-            // choisir un livre au hasard a chaque tour
+            // Choisir un livre au hasard à chaque tour
             $randomLivre = $this->faker->randomElement($livres);
-            // Création des données aléatoires des données tests
+
             $emprunt = new Emprunt();
             $emprunt->setDateEmprunt($this->faker->dateTime($max = 'now', $timezone = null));
             $dateEmprunt = $emprunt->getDateEmprunt();
@@ -516,7 +517,7 @@ class AppFixtures extends Fixture
 
             $emprunt->setDateEmprunt($this->faker->dateTime($max = 'now', $timezone = null));
 
-            if($modification){
+            if($randomRetour){
                 $dateEmprunt = $emprunt->getDateEmprunt();
                 $DateRetour = \DateTime::createFromFormat('Y-m-d H:i:s', $dateEmprunt->format('Y-m-d H:i:s'));
                 $DateRetour->add(new \DateInterval("P{$randomMonth}M"));
