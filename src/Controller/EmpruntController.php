@@ -33,10 +33,11 @@ class EmpruntController extends AbstractController
                 $emprunteur = $emprunteurRepository->findOneByUser($user);
                 $emprunts = $emprunteur->getEmprunts();
     
-                    return $this->render('emprunt/index.html.twig', [
-                        'emprunts' => $emprunts
-                    ]);
             }
+
+            return $this->render('emprunt/index.html.twig', [
+                'emprunts' => $emprunts
+            ]);
         }
         
     }

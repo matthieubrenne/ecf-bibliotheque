@@ -20,7 +20,7 @@ class GenreType extends AbstractType
                 'class' => Livre::class,
                 'choice_label' => 'titre',
 
-                // 'multiple' => true,
+                'multiple' => true,
                 // 'expanded' => true,
             ])
         ;

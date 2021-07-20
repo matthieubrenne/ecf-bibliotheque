@@ -61,6 +61,11 @@ class Emprunteur
      */
     private $user;
 
+    public function __construct()
+    {
+        $this->emprunts = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

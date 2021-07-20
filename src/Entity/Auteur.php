@@ -34,6 +34,11 @@ class Auteur
      */
     private $livres;
 
+    public function __construct()
+    {
+        $this->livres = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -63,5 +68,32 @@ class Auteur
         return $this;
     }
 
-    
+    /**
+     * @return Collection|Livre[]
+     */
+    public function getLivres(): Collection
+    {
+        return $this->livres;
+    }
+
+    public function addLivre(Livre $livre): self
+    {
+        if (!$this->livres->contains($livre)) {
+            $this->livres[] = $livre;
+            $livre->setAuteur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLivre(Livre $livre): self
+    {
+        if ($this->livres->removeElement($livre)) {
+            if ($livre->getAuteur() === $this) {
+                $livre->setAuteur(null);
+            }
+        }
+
+        return $this;
+    }
 }

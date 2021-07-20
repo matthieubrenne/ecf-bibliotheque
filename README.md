@@ -829,8 +829,3 @@ méthode : `DELETE`
 Les autres pages de type CRUD sont construites en remplaçant le mot clé `livre` par la ressource correspondante.
 
 Exemple : `/admin/user`, `/admin/auteur`, `/admin/genre`, etc.
-
-
-A faire : 
-- rajouter les auteurs a la page d'accueil des livres
-- continuer genre (probleme a l'edition avec les livres)

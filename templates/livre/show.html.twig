@@ -16,6 +16,20 @@
                 <td>{{ livre.titre }}</td>
             </tr>
             <tr>
+                <th>Auteur</th>
+                <td>{{ livre.auteur.nom }} {{ livre.auteur.prenom }}</td>
+            </tr>
+            <tr>
+                <th>Genres</th>
+                <td>
+                    <p>
+                        {% for genre in livre.genres %}
+                            {{ livre.name }}{% if not loop.last%},{% endif %}
+                        {% endfor %}
+                    </p>
+                </td>
+            </tr>
+            <tr>
                 <th>Annee_edition</th>
                 <td>{{ livre.anneeEdition }}</td>
             </tr>

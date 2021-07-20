@@ -28,9 +28,14 @@
                   <a class="nav-link" href="https://127.0.0.1:8000/login">Connection</a>
                 </li>
                 {# liens pour les emprunteurs et admins #}
-                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EMPRUNTEUR')%}
+                {% if is_granted('ROLE_ADMIN') %}
                 <li class="nav-item">
                   <a class="nav-link" href="{{path('emprunt_index')}}">emprunts</a>
+                </li>
+                {% endif %}
+                {% if is_granted('ROLE_EMPRUNTEUR') %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{{path('emprunt_index')}}">Mes emprunts</a>
                 </li>
                 {% endif %}
                 {# liens pour les admins #}
@@ -54,6 +59,7 @@
               </ul>
             </div>
           </nav>
-        {% block body %}{% endblock %}
+        {% block body %}
+        {% endblock %}
     </body>
 </html>
