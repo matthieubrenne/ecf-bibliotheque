@@ -26,7 +26,7 @@
             <tr>
                 <td>{{ livre.id }}</td>
                 <td>
-                    <a href="{{ path('livre_show', {'id': livre.id}) }}">{{ livre.titre }} ℹ️</a>
+                    <a href="{{ path('livre_show', {'id': livre.id}) }}">📙 {{ livre.titre }}</a>
                 </td>
                 <td>{{livre.auteur.nom}} {{livre.auteur.prenom}}</td>
                 <td>
