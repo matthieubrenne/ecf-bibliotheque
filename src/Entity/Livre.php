@@ -180,5 +180,18 @@ class Livre
         return $this;
     }
 
+    // fonction pour disponibilité des livres
+    public function isAvailable(): bool
+    {
+        // si il n'ya a pas d'emprunt, le livre est dispo
+        // si il y a des emprunts mais qu'ils ont tous été retournés, le livre est dispo
+        foreach($this->getEmprunts() as $emprunt) {
+            if($emprunt->getDateRetour()== null) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 
 }

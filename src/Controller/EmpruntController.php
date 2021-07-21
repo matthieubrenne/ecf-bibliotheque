@@ -7,6 +7,7 @@ use App\Form\EmpruntType;
 use App\Repository\EmpruntRepository;
 use App\Repository\EmprunteurRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -27,8 +28,9 @@ class EmpruntController extends AbstractController
             $user = $this->getUser();
     
             // On vérifie si l'utilisateur est un emprunteur 
-            if (in_array('ROLE_EMPRUNTEUR', $user->getRoles())) {
+            if ($this->isGranted('ROLE_EMPRUNTEUR')) {
                 // Récupèration du profil emprunteur
+                $user = $this->getUser();
 
                 $emprunteur = $emprunteurRepository->findOneByUser($user);
                 $emprunts = $emprunteur->getEmprunts();
@@ -68,12 +70,37 @@ class EmpruntController extends AbstractController
     /**
      * @Route("/{id}", name="emprunt_show", methods={"GET"})
      */
-    public function show(Emprunt $emprunt): Response
+
+    public function show(Emprunt $emprunt, EmprunteurRepository $emprunteurRepository): Response
     {
+        if ($this->isGranted('ROLE_EMPRUNTEUR')) {
+            // L'utilisateur est un emprunteur
+            
+            // On récupère le compte de l'utilisateur authentifié
+            $user = $this->getUser();
+
+            // On récupère le profil emprunteur lié au compte utilisateur
+            $emprunteur = $emprunteurRepository->findOneByUser($user);
+
+            // On vérifie si la school year que l'utilisateur demande et la school year
+            // auquel il est rattaché correspondent.
+            // Si ce n'est pas le cas on lui renvoit un code 404
+            if (!$emprunteur->getEmprunts()->contains($emprunt)) {
+                throw new NotFoundHttpException();
+            }
+        }
+
         return $this->render('emprunt/show.html.twig', [
             'emprunt' => $emprunt,
         ]);
     }
+
+    // public function show(Emprunt $emprunt): Response
+    // {
+    //     return $this->render('emprunt/show.html.twig', [
+    //         'emprunt' => $emprunt,
+    //     ]);
+    // }
 
     /**
      * @Route("/{id}/edit", name="emprunt_edit", methods={"GET","POST"})

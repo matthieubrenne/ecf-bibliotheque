@@ -11,8 +11,10 @@
                 <th>Id</th>
                 <th>Titre</th>
                 <th>Auteur</th>
+                <th>Genres</th>
                 <th>Annee_edition</th>
                 <th>Nombre_pages</th>
+                <th>Disponibilité</th>
                 {# liens pour les admins #}
                 {% if is_granted('ROLE_ADMIN')%}
                 <th>actions</th>
@@ -24,11 +26,23 @@
             <tr>
                 <td>{{ livre.id }}</td>
                 <td>
-                    <a href="{{ path('livre_show', {'id': livre.id}) }}">{{ livre.titre }}</a>
+                    <a href="{{ path('livre_show', {'id': livre.id}) }}">{{ livre.titre }} ℹ️</a>
                 </td>
                 <td>{{livre.auteur.nom}} {{livre.auteur.prenom}}</td>
+                <td>
+                    <ul>
+                        {% for genre in livre.genres %}
+                        <li>{{ genre.nom }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
                 <td>{{ livre.anneeEdition }}</td>
                 <td>{{ livre.nombrePages }}</td>
+                {% if livre.isAvailable %}
+                <td>disponible 🙂</td>
+                {% else %}
+                <td class="nonDispo">non disponible ☹️</td>
+                {% endif %}
                 {# liens pour les admins #}
                 {% if is_granted('ROLE_ADMIN')%}
                 <td>
@@ -44,6 +58,7 @@
         {% endfor %}
         </tbody>
     </table>
-
+    {% if is_granted('ROLE_ADMIN')%}
     <a href="{{ path('livre_new') }}">Create new</a>
+    {% endif %}
 {% endblock %}
