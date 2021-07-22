@@ -11,7 +11,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Knp\Component\Pager\PaginatorInterface; // Nous appelons le bundle KNP Paginator
 /**
  * @Route("/emprunt")
  */
@@ -20,8 +20,9 @@ class EmpruntController extends AbstractController
     /**
      * @Route("/", name="emprunt_index", methods={"GET"})
      */
-    public function index(EmpruntRepository $empruntRepository, EmprunteurRepository $emprunteurRepository): Response
+    public function index(Request $request, PaginatorInterface $paginator,EmpruntRepository $empruntRepository, EmprunteurRepository $emprunteurRepository): Response
     {
+
         {
             $emprunts = $empruntRepository->findAll();
             // Récupération du compte de l'utilisateur qui est connecté
@@ -34,12 +35,27 @@ class EmpruntController extends AbstractController
 
                 $emprunteur = $emprunteurRepository->findOneByUser($user);
                 $emprunts = $emprunteur->getEmprunts();
-    
-            }
-
-            return $this->render('emprunt/index.html.twig', [
+                
+                return $this->render('emprunt/index.html.twig', [
                 'emprunts' => $emprunts
             ]);
+    
+            } else  {
+                // Méthode findBy qui permet de récupérer les données avec des critères de filtre et de tri
+                $donnees = $this->getDoctrine()->getRepository(Emprunt::class)->findBy([],['id' => 'ASC']);
+
+                $emprunt = $paginator->paginate(
+                    $donnees, // Requête contenant les données à paginer (ici nos articles)
+                    $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+                    15 // Nombre de résultats par page
+                );
+
+                return $this->render('emprunt/index.html.twig', [
+                    'emprunts' => $emprunt
+                ]);
+            }
+
+            
         }
         
     }

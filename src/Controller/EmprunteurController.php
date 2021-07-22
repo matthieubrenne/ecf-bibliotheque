@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Knp\Component\Pager\PaginatorInterface; // Nous appelons le bundle KNP Paginator
 
 /**
  * @Route("/emprunteur")
@@ -21,10 +22,19 @@ class EmprunteurController extends AbstractController
     /**
      * @Route("/", name="emprunteur_index", methods={"GET"})
      */
-    public function index(EmprunteurRepository $emprunteurRepository): Response
+    public function index(Request $request, PaginatorInterface $paginator,EmprunteurRepository $emprunteurRepository): Response
     {
+        // Méthode findBy qui permet de récupérer les données avec des critères de filtre et de tri
+        $donnees = $this->getDoctrine()->getRepository(Emprunteur::class)->findBy([],['id' => 'ASC']);
+
+        $emprunteur = $paginator->paginate(
+            $donnees, // Requête contenant les données à paginer (ici nos articles)
+            $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+            15 // Nombre de résultats par page
+        );
+
         return $this->render('emprunteur/index.html.twig', [
-            'emprunteurs' => $emprunteurRepository->findAll(),
+            'emprunteurs' => $emprunteur,
         ]);
     }
 

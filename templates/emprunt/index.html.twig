@@ -44,4 +44,5 @@
     {% if is_granted('ROLE_ADMIN') %}
     <a href="{{ path('emprunt_new') }}">Create new</a>
     {% endif %}
+    {{ knp_pagination_render(emprunts) }}
 {% endblock %}

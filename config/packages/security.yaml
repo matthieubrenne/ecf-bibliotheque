@@ -50,51 +50,51 @@ security:
 
         #--------livre--------#
 
-                # Tous les chemins commençant par "/emprunt/id/edit" ne sont accessibles qu'aux roles admin
+                # Tous les chemins commençant par "/;livre/id/edit" ne sont accessibles qu'aux roles admin
         - { path: "^/livre/[0-9]+/edit", roles: [ROLE_ADMIN] }
-        # Tous les chemins commençant par "/emprunt/new" ne sont accessibles qu'aux roles admin
+        # Tous les chemins commençant par "/livre/new" ne sont accessibles qu'aux roles admin
         - { path: "^/livre/new", roles: [ROLE_ADMIN] }
 
         #--------emprunteur--------#
 
-                # Tous les chemins commençant par "/emprunt/id/edit" ne sont accessibles qu'aux roles admin
+                # Tous les chemins commençant par "/emprunteur/id/edit" ne sont accessibles qu'aux roles admin
         - { path: "^/emprunteur/[0-9]+/edit", roles: [ROLE_ADMIN] }
-        # Tous les chemins commençant par "/emprunt/new" ne sont accessibles qu'aux roles admin
+        # Tous les chemins commençant par "/emprunteur/new" ne sont accessibles qu'aux roles admin
         - { path: "^/emprunteur/new", roles: [ROLE_ADMIN] }
-        # Tous les chemins demandés commençant par "/emprunt/id" ne sont accessibles qu'aux roles admin ou student.
+        # Tous les chemins demandés commençant par "/emprunteur/id" ne sont accessibles qu'aux roles admin ou student.
         - { path: "^/emprunteur/[0-9]+/?$", roles: [ROLE_ADMIN] }
-        # Tous les chemins commençant par "/emprunt" ne sont accessibles qu'aux roles admin
+        # Tous les chemins commençant par "/emprunteur" ne sont accessibles qu'aux roles admin
         - { path: ^/emprunteur, roles: [ROLE_ADMIN, ROLE_EMPRUNTEUR] }
 
         #--------genre--------#
 
-                # Tous les chemins commençant par "/emprunt/id/edit" ne sont accessibles qu'aux roles admin
+                # Tous les chemins commençant par "/genre/id/edit" ne sont accessibles qu'aux roles admin
         - { path: "^/genre/[0-9]+/edit", roles: [ROLE_ADMIN] }
-        # Tous les chemins commençant par "/emprunt/new" ne sont accessibles qu'aux roles admin
+        # Tous les chemins commençant par "/genre/new" ne sont accessibles qu'aux roles admin
         - { path: "^/genre/new", roles: [ROLE_ADMIN] }
-        # Tous les chemins demandés commençant par "/emprunt/id" ne sont accessibles qu'aux roles admin ou student.
+        # Tous les chemins demandés commençant par "/genre/id" ne sont accessibles qu'aux roles admin ou student.
         - { path: "^/genre/[0-9]+/?$", roles: [ROLE_ADMIN] }
-        # Tous les chemins commençant par "/emprunt" ne sont accessibles qu'aux roles admin
+        # Tous les chemins commençant par "/genre" ne sont accessibles qu'aux roles admin
         - { path: ^/genre, roles: [ROLE_ADMIN, ROLE_EMPRUNTEUR] }
 
         #--------auteur--------#
 
-                # Tous les chemins commençant par "/emprunt/id/edit" ne sont accessibles qu'aux roles admin
+                # Tous les chemins commençant par "/auteur/id/edit" ne sont accessibles qu'aux roles admin
         - { path: "^/auteur/[0-9]+/edit", roles: [ROLE_ADMIN] }
-        # Tous les chemins commençant par "/emprunt/new" ne sont accessibles qu'aux roles admin
+        # Tous les chemins commençant par "/auteur/new" ne sont accessibles qu'aux roles admin
         - { path: "^/auteur/new", roles: [ROLE_ADMIN] }
-        # Tous les chemins demandés commençant par "/emprunt/id" ne sont accessibles qu'aux roles admin ou student.
+        # Tous les chemins demandés commençant par "/auteur/id" ne sont accessibles qu'aux roles admin ou student.
         - { path: "^/auteur/[0-9]+/?$", roles: [ROLE_ADMIN] }
-        # Tous les chemins commençant par "/emprunt" ne sont accessibles qu'aux roles admin
+        # Tous les chemins commençant par "/auteur" ne sont accessibles qu'aux roles admin
         - { path: ^/auteur, roles: [ROLE_ADMIN, ROLE_EMPRUNTEUR] }
 
         #--------utilisateur--------#
 
-                # Tous les chemins commençant par "/emprunt/id/edit" ne sont accessibles qu'aux roles admin
+                # Tous les chemins commençant par "/utilisateur/id/edit" ne sont accessibles qu'aux roles admin
         - { path: "^/user/[0-9]+/edit", roles: [ROLE_ADMIN] }
-        # Tous les chemins commençant par "/emprunt/new" ne sont accessibles qu'aux roles admin
+        # Tous les chemins commençant par "/utilisateur/new" ne sont accessibles qu'aux roles admin
         - { path: "^/user/new", roles: [ROLE_ADMIN] }
-        # Tous les chemins demandés commençant par "/emprunt/id" ne sont accessibles qu'aux roles admin ou student.
+        # Tous les chemins demandés commençant par "/utilisateur/id" ne sont accessibles qu'aux roles admin ou student.
         - { path: "^/user/[0-9]+/?$", roles: [ROLE_ADMIN] }
-        # Tous les chemins commençant par "/emprunt" ne sont accessibles qu'aux roles admin
+        # Tous les chemins commençant par "/utilisateur" ne sont accessibles qu'aux roles admin
         - { path: ^/user, roles: [ROLE_ADMIN, ROLE_EMPRUNTEUR] }
