@@ -23,7 +23,6 @@ class EmpruntController extends AbstractController
     public function index(Request $request, PaginatorInterface $paginator,EmpruntRepository $empruntRepository, EmprunteurRepository $emprunteurRepository): Response
     {
 
-        {
             $emprunts = $empruntRepository->findAll();
             // Récupération du compte de l'utilisateur qui est connecté
             $user = $this->getUser();
@@ -40,7 +39,7 @@ class EmpruntController extends AbstractController
                 'emprunts' => $emprunts
             ]);
     
-            } else  {
+            } elseif ($this->isGranted('ROLE_ADMIN'))  {
                 // Méthode findBy qui permet de récupérer les données avec des critères de filtre et de tri
                 $donnees = $this->getDoctrine()->getRepository(Emprunt::class)->findBy([],['id' => 'ASC']);
 
@@ -54,9 +53,6 @@ class EmpruntController extends AbstractController
                     'emprunts' => $emprunt
                 ]);
             }
-
-            
-        }
         
     }
 
